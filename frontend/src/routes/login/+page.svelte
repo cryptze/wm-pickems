@@ -25,7 +25,7 @@
 			await auth.login(identity, password);
 			goto(dest());
 		} catch {
-			error = 'Invalid email or password.';
+			error = 'Correo o contraseña incorrectos.';
 		} finally {
 			busy = false;
 		}
@@ -39,7 +39,7 @@
 			goto(dest());
 		} catch (e: unknown) {
 			error =
-				(e as { message?: string })?.message ?? 'Google sign-in failed.';
+				(e as { message?: string })?.message ?? 'Error al iniciar sesión con Google.';
 		} finally {
 			busy = false;
 		}
@@ -47,12 +47,12 @@
 </script>
 
 <div class="auth">
-	<h1>WM Tips</h1>
-	<p class="muted">Predict the World Cup. Beat your friends.</p>
+	<h1>Quiniela Mundial</h1>
+	<p class="muted">Predice el Mundial. Gana a tus amigos.</p>
 
 	<form class="card" onsubmit={submit}>
 		<div class="field">
-			<label for="id">Email</label>
+			<label for="id">Correo electrónico</label>
 			<input
 				id="id"
 				class="input"
@@ -64,8 +64,8 @@
 		</div>
 		<div class="field">
 			<div class="lblrow">
-				<label for="pw">Password</label>
-				<a class="forgot" href="/forgot-password">Forgot password?</a>
+				<label for="pw">Contraseña</label>
+				<a class="forgot" href="/forgot-password">¿Olvidaste tu contraseña?</a>
 			</div>
 			<input
 				id="pw"
@@ -77,14 +77,14 @@
 			/>
 		</div>
 		{#if error}<p class="error">{error}</p>{/if}
-		<button class="btn" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
-		<div class="sep"><span>or</span></div>
+		<button class="btn" disabled={busy}>{busy ? 'Iniciando sesión…' : 'Iniciar sesión'}</button>
+		<div class="sep"><span>o</span></div>
 		<button
 			type="button"
 			class="gsi"
 			disabled={busy}
 			onclick={google}
-			aria-label="Continue with Google"
+			aria-label="Continuar con Google"
 		>
 			<svg class="gsi-logo" viewBox="0 0 48 48" aria-hidden="true">
 				<path
@@ -104,10 +104,10 @@
 					d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
 				/>
 			</svg>
-			<span class="gsi-text">Continue with Google</span>
+			<span class="gsi-text">Continuar con Google</span>
 		</button>
 		<p class="muted switch">
-			No account? <a href={registerHref}>Create one</a>
+			¿Sin cuenta? <a href={registerHref}>Regístrate</a>
 		</p>
 	</form>
 </div>

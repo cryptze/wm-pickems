@@ -105,7 +105,7 @@
 		} catch (e: unknown) {
 			msg =
 				(e as { message?: string })?.message ??
-				'Could not save this tip.';
+				'No se pudo guardar el tip.';
 		} finally {
 			busy = false;
 		}
@@ -179,11 +179,11 @@
 					{/if}
 				</span>
 			{:else if live}
-				<span class="pill livep"><span class="dot"></span> Live</span>
+				<span class="pill livep"><span class="dot"></span> En vivo</span>
 			{:else if locked}
-				<span class="pill"><Lock size={12} /> locked</span>
+				<span class="pill"><Lock size={12} /> cerrado</span>
 			{:else if existing}
-				<span class="pill ok"><Check size={12} /> tipped</span>
+				<span class="pill ok"><Check size={12} /> ingresado</span>
 			{/if}
 			<ChevronDown size={16} class="cv {open ? 'up' : ''}" />
 		</div>
@@ -192,17 +192,17 @@
 	{#if open}
 		<div class="body">
 			{#if isKO && !resolved}
-				<p class="muted">Opens once the matchup is decided.</p>
+				<p class="muted">Se abre una vez definido el enfrentamiento.</p>
 			{:else if locked}
 				{#if played && advancedName}
 					<p class="resline muted">
-						Result <b>{match.ftHome}:{match.ftAway}</b> · advanced:
+						Resultado <b>{match.ftHome}:{match.ftAway}</b> · avanzó:
 						<b>{advancedName}</b>
 					</p>
 				{/if}
 				{#if existing}
 					<div class="yourtip" class:scored={played}>
-						<span class="ylabel">Your tip</span>
+						<span class="ylabel">Tu tip</span>
 						<span class="yscore digits"
 							>{existing.ftHome}<span class="cln">:</span>{existing.ftAway}</span
 						>
@@ -219,7 +219,7 @@
 						{/if}
 					</div>
 				{:else}
-					<p class="muted">No tip — this match was locked.</p>
+					<p class="muted">Sin tip — este partido cerró.</p>
 				{/if}
 				<button
 					class="btn secondary friendsbtn"
@@ -228,11 +228,11 @@
 					disabled={friendsBusy}
 				>
 					<Users size={16} />
-					{friends !== null ? 'Hide friends’ picks' : 'Show friends’ picks'}
+					{friends !== null ? 'Ocultar picks de amigos' : 'Ver picks de amigos'}
 				</button>
 				{#if friends}
 					{#if friends.length === 0}
-						<p class="muted small">No friends’ tips for this match.</p>
+						<p class="muted small">Sin tips de amigos para este partido.</p>
 					{:else}
 						<table class="friends">
 							<tbody>
@@ -262,7 +262,7 @@
 				</div>
 
 				{#if ftTie}
-					<div class="phase">After extra time</div>
+					<div class="phase">Después del tiempo extra</div>
 					<div class="enter">
 						<span class="el">{H.name}</span>
 						<Stepper bind:value={etH} min={ftH} />
@@ -273,7 +273,7 @@
 				{/if}
 
 				{#if etTie}
-					<div class="phase">Penalty shootout — who advances?</div>
+					<div class="phase">Penales — ¿quién avanza?</div>
 					<div class="pens">
 						<button
 							class="pen"
@@ -293,14 +293,14 @@
 				{/if}
 
 				{#if isKO && advancerName}
-					<p class="adv muted">Advances: <b>{advancerName}</b></p>
+					<p class="adv muted">Avanza: <b>{advancerName}</b></p>
 				{/if}
 
 				{#if msg}<p class="error">{msg}</p>{/if}
 				<button class="btn" onclick={save} disabled={busy}>
-					{#if savedOk}<Check size={16} /> Saved{:else}{busy
-							? 'Saving…'
-							: 'Save tip'}{/if}
+					{#if savedOk}<Check size={16} /> Guardado{:else}{busy
+							? 'Guardando…'
+							: 'Guardar tip'}{/if}
 				</button>
 			{/if}
 		</div>

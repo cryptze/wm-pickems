@@ -4,17 +4,17 @@
 </script>
 
 {#if pwa.bannerOpen}
-	<div class="banner" role="region" aria-label="Install app">
+	<div class="banner" role="region" aria-label="Instalar app">
 		<div class="inner">
 			<Download size={18} class="ico" />
 			<div class="msg">
-				<strong>Install App</strong>
-				<span class="muted small">Faster launch, full-screen, no browser bar.</span>
+				<strong>Instalar App</strong>
+				<span class="muted small">Carga rápida, pantalla completa, sin barra del navegador.</span>
 			</div>
-			<button class="btn install" onclick={() => pwa.install()}>Install</button>
+			<button class="btn install" onclick={() => pwa.install()}>Instalar</button>
 			<button
 				class="x"
-				aria-label="Dismiss"
+				aria-label="Cerrar"
 				onclick={() => pwa.dismissBanner()}
 			>
 				<X size={16} />
@@ -30,16 +30,16 @@
 		aria-label="Close"
 		onclick={() => pwa.closeIosHelp()}
 	></button>
-	<div class="ios-sheet" role="dialog" aria-label="Install instructions">
-		<h3>Add WM Tips to your Home Screen</h3>
+	<div class="ios-sheet" role="dialog" aria-label="Instrucciones de instalación">
+		<h3>Agrega Quiniela Mundial a tu pantalla de inicio</h3>
 		<ol>
 			<li>
-				Tap the <span class="kbd"><Share size={14} /> Share</span> button in the Safari toolbar.
+				Toca el botón <span class="kbd"><Share size={14} /> Compartir</span> en la barra de Safari.
 			</li>
-			<li>Scroll down and choose <strong>Add to Home Screen</strong>.</li>
-			<li>Tap <strong>Add</strong> in the top-right.</li>
+			<li>Desplázate y elige <strong>Agregar a inicio</strong>.</li>
+			<li>Toca <strong>Agregar</strong> en la parte superior derecha.</li>
 		</ol>
-		<button class="btn" onclick={() => pwa.closeIosHelp()}>Got it</button>
+		<button class="btn" onclick={() => pwa.closeIosHelp()}>Entendido</button>
 	</div>
 {/if}
 

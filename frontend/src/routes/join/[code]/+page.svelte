@@ -42,35 +42,35 @@
 </script>
 
 <div class="auth">
-	<h1>WM Tips</h1>
-	<p class="muted">Predict the World Cup. Beat your friends.</p>
+	<h1>Quiniela Mundial</h1>
+	<p class="muted">Predice el Mundial. Gana a tus amigos.</p>
 
 	<div class="card">
 		{#if phase === 'loading'}
-			<p class="muted">Checking your invite…</p>
+			<p class="muted">Verificando tu invitación…</p>
 		{:else if phase === 'joining'}
-			<p class="muted">Joining <strong>{leagueName}</strong>…</p>
+			<p class="muted">Uniéndote a <strong>{leagueName}</strong>…</p>
 		{:else if phase === 'invite'}
-			<p class="kicker">You've been invited</p>
+			<p class="kicker">Fuiste invitado</p>
 			<h2 class="lname">{leagueName}</h2>
 			<p class="muted">
-				Sign in or create an account to join this league.
+				Inicia sesión o crea una cuenta para unirte a esta liga.
 			</p>
 			<a class="btn" href={`/register?invite=${encodeURIComponent(code)}`}>
-				Create account
+				Crear cuenta
 			</a>
 			<a
 				class="btn secondary"
 				href={`/login?invite=${encodeURIComponent(code)}`}
 			>
-				Sign in
+				Iniciar sesión
 			</a>
 		{:else if phase === 'error'}
-			<p class="error">Couldn't join the league. Please try again.</p>
-			<a class="btn secondary" href="/leagues">Go to Leagues</a>
+			<p class="error">No se pudo unir a la liga. Inténtalo de nuevo.</p>
+			<a class="btn secondary" href="/leagues">Ir a Ligas</a>
 		{:else}
-			<p class="error">This invite link is invalid or has expired.</p>
-			<a class="btn secondary" href="/">Go home</a>
+			<p class="error">Este enlace de invitación es inválido o ha expirado.</p>
+			<a class="btn secondary" href="/">Ir al inicio</a>
 		{/if}
 	</div>
 </div>

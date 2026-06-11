@@ -14,11 +14,11 @@
 		e.preventDefault();
 		error = '';
 		if (password.length < 8) {
-			error = 'Password must be at least 8 characters.';
+			error = 'La contraseña debe tener al menos 8 caracteres.';
 			return;
 		}
 		if (password !== confirm) {
-			error = 'Passwords do not match.';
+			error = 'Las contraseñas no coinciden.';
 			return;
 		}
 		busy = true;
@@ -32,7 +32,7 @@
 		} catch (err: unknown) {
 			error =
 				(err as { message?: string })?.message ??
-				'This reset link is invalid or has expired.';
+				'El enlace es inválido o ha expirado.';
 		} finally {
 			busy = false;
 		}
@@ -40,17 +40,17 @@
 </script>
 
 <div class="auth">
-	<h1>Choose a new password</h1>
-	<p class="muted">Enter and confirm your new password.</p>
+	<h1>Elige una nueva contraseña</h1>
+	<p class="muted">Ingresa y confirma tu nueva contraseña.</p>
 
 	{#if done}
 		<div class="card">
-			<p class="ok">Password updated — taking you to sign in…</p>
+			<p class="ok">Contraseña actualizada — redirigiendo…</p>
 		</div>
 	{:else}
 		<form class="card" onsubmit={submit}>
 			<div class="field">
-				<label for="pw">New password</label>
+				<label for="pw">Nueva contraseña</label>
 				<input
 					id="pw"
 					class="input"
@@ -62,7 +62,7 @@
 				/>
 			</div>
 			<div class="field">
-				<label for="pw2">Confirm new password</label>
+				<label for="pw2">Confirmar contraseña</label>
 				<input
 					id="pw2"
 					class="input"
@@ -75,9 +75,9 @@
 			</div>
 			{#if error}<p class="error">{error}</p>{/if}
 			<button class="btn" disabled={busy || !token}>
-				{busy ? 'Updating…' : 'Update password'}
+				{busy ? 'Actualizando…' : 'Actualizar contraseña'}
 			</button>
-			<p class="muted switch"><a href="/login">Back to sign in</a></p>
+			<p class="muted switch"><a href="/login">Volver a iniciar sesión</a></p>
 		</form>
 	{/if}
 </div>

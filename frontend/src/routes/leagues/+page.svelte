@@ -32,7 +32,7 @@
 			newName = '';
 			goto(`/leagues/${r.id}`);
 		} catch {
-			error = 'Could not create league.';
+			error = 'No se pudo crear la liga.';
 		} finally {
 			busy = false;
 		}
@@ -47,28 +47,28 @@
 			joinCode = '';
 			goto(`/leagues/${r.id}`);
 		} catch {
-			error = 'Invalid invite code.';
+			error = 'Código de invitación inválido.';
 		} finally {
 			busy = false;
 		}
 	}
 </script>
 
-<p class="kicker">Play your friends</p>
-<h1>Leagues</h1>
-<p class="muted">Private competitions — your predictions vs. your friends'.</p>
+<p class="kicker">Juega con tus amigos</p>
+<h1>Ligas</h1>
+<p class="muted">Competencias privadas — tus pronósticos vs. los de tus amigos.</p>
 
 <section class="card">
-	<h3>Your leagues</h3>
+	<h3>Tus ligas</h3>
 	{#if !loaded}
-		<p class="muted">Loading…</p>
+		<p class="muted">Cargando…</p>
 	{:else if leagues.length === 0}
-		<p class="muted">None yet — create one or join with a code.</p>
+		<p class="muted">Ninguna aún — crea una o únete con un código.</p>
 	{:else}
 		{#each leagues as l (l.id)}
 			<a class="lrow" href={`/leagues/${l.id}`}>
 				<span>{l.name}</span>
-				{#if l.role === 'owner'}<span class="pill">owner</span>{/if}
+				{#if l.role === 'owner'}<span class="pill">propietario</span>{/if}
 				<span class="spacer"></span>
 				<span class="cnt"><Users size={15} /> {l.members}</span>
 			</a>
@@ -77,27 +77,27 @@
 </section>
 
 <section class="card">
-	<h3>Create a league</h3>
+	<h3>Crear una liga</h3>
 	<form onsubmit={create}>
 		<div class="field">
-			<input class="input" placeholder="League name" bind:value={newName} required />
+			<input class="input" placeholder="Nombre de la liga" bind:value={newName} required />
 		</div>
-		<button class="btn" disabled={busy || !newName.trim()}>Create</button>
+		<button class="btn" disabled={busy || !newName.trim()}>Crear</button>
 	</form>
 </section>
 
 <section class="card">
-	<h3>Join a league</h3>
+	<h3>Unirse a una liga</h3>
 	<form onsubmit={join}>
 		<div class="field">
 			<input
 				class="input code"
-				placeholder="INVITE CODE"
+				placeholder="CÓDIGO DE INVITACIÓN"
 				bind:value={joinCode}
 				required
 			/>
 		</div>
-		<button class="btn secondary" disabled={busy || !joinCode.trim()}>Join</button>
+		<button class="btn secondary" disabled={busy || !joinCode.trim()}>Unirse</button>
 	</form>
 </section>
 

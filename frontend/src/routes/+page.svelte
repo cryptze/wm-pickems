@@ -19,33 +19,33 @@
 		{
 			href: '/forecast',
 			icon: Telescope,
-			title: 'Fill in your Forecast',
-			sub: 'Full tournament call — before the opening match'
+			title: 'Completa tu Pronóstico',
+			sub: 'Tu predicción completa — antes del partido inaugural'
 		},
 		{
 			href: '/tips',
 			icon: Volleyball,
-			title: 'Tip the upcoming matches',
-			sub: 'Score predictions, editable until kickoff'
+			title: 'Predice los partidos',
+			sub: 'Resultados editables hasta el pitazo inicial'
 		},
 		{
 			href: '/leagues',
 			icon: Trophy,
-			title: 'Create or join a League',
-			sub: 'Play against your friends'
+			title: 'Crear o unirse a una Liga',
+			sub: 'Compite con tus amigos'
 		}
 	];
 </script>
 
 <header>
-	<p class="kicker">Matchday HQ</p>
-	<h1>Hi,&nbsp;{auth.user?.name}</h1>
-	<p class="muted sd">World Cup 2026 · 11 Jun – 19 Jul · 48 nations</p>
+	<p class="kicker">Centro de Pronósticos</p>
+	<h1>Hola,&nbsp;{auth.user?.name}</h1>
+	<p class="muted sd">Mundial 2026 · 11 Jun – 19 Jul · 48 selecciones</p>
 </header>
 
 <div class="stagger">
 <section class="card">
-	<h3>Your next moves</h3>
+	<h3>Tus próximos pasos</h3>
 	<div class="moves">
 		{#each moves as m (m.href)}
 			{@const Icon = m.icon}
@@ -63,21 +63,21 @@
 
 <section class="card">
 	<div class="row">
-		<h3>Your leagues</h3>
+		<h3>Tus ligas</h3>
 		<div class="spacer"></div>
-		<a class="pill" href="/leagues">Manage</a>
+		<a class="pill" href="/leagues">Gestionar</a>
 	</div>
 	{#if !loaded}
-		<p class="muted">Loading…</p>
+		<p class="muted">Cargando…</p>
 	{:else if leagues.length === 0}
 		<p class="muted">
-			You're not in a league yet. <a href="/leagues">Create or join one →</a>
+			Aún no estás en una liga. <a href="/leagues">Crea o únete a una →</a>
 		</p>
 	{:else}
 		{#each leagues as l (l.id)}
 			<a class="lrow" href={`/leagues/${l.id}`}>
 				<span>{l.name}</span>
-				{#if l.role === 'owner'}<span class="pill">owner</span>{/if}
+				{#if l.role === 'owner'}<span class="pill">propietario</span>{/if}
 				<span class="spacer"></span>
 				<span class="cnt"><Users size={15} /> {l.members}</span>
 			</a>

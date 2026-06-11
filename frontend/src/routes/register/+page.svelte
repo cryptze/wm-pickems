@@ -22,7 +22,7 @@
 		e.preventDefault();
 		error = '';
 		if (password.length < 8) {
-			error = 'Password must be at least 8 characters.';
+			error = 'La contraseña debe tener al menos 8 caracteres.';
 			return;
 		}
 		busy = true;
@@ -32,7 +32,7 @@
 		} catch (err: unknown) {
 			error =
 				(err as { message?: string })?.message ??
-				'Could not create account.';
+				'No se pudo crear la cuenta.';
 		} finally {
 			busy = false;
 		}
@@ -40,16 +40,16 @@
 </script>
 
 <div class="auth">
-	<h1>Create account</h1>
-	<p class="muted">Join the World Cup prediction game.</p>
+	<h1>Crear cuenta</h1>
+	<p class="muted">Únete a la quiniela del Mundial.</p>
 
 	<form class="card" onsubmit={submit}>
 		<div class="field">
-			<label for="nm">Display name</label>
+			<label for="nm">Nombre</label>
 			<input id="nm" class="input" bind:value={name} required />
 		</div>
 		<div class="field">
-			<label for="em">Email</label>
+			<label for="em">Correo electrónico</label>
 			<input
 				id="em"
 				class="input"
@@ -60,7 +60,7 @@
 			/>
 		</div>
 		<div class="field">
-			<label for="pw">Password</label>
+			<label for="pw">Contraseña</label>
 			<input
 				id="pw"
 				class="input"
@@ -71,9 +71,9 @@
 			/>
 		</div>
 		{#if error}<p class="error">{error}</p>{/if}
-		<button class="btn" disabled={busy}>{busy ? 'Creating…' : 'Create account'}</button>
+		<button class="btn" disabled={busy}>{busy ? 'Creando…' : 'Crear cuenta'}</button>
 		<p class="muted switch">
-			Already have an account? <a href={loginHref}>Sign in</a>
+			¿Ya tienes cuenta? <a href={loginHref}>Inicia sesión</a>
 		</p>
 	</form>
 </div>

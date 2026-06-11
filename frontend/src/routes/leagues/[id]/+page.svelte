@@ -40,20 +40,20 @@
 	let cfg = $state<Cfg | null>(null);
 
 	const tbLabel: Record<string, string> = {
-		points: 'Total points',
-		exactScores: 'Most exact scores',
-		correctWinners: 'Most correct winners',
-		goalDiffDeviation: 'Smallest goal-difference error vs. results',
-		fewestTips: 'Fewest tips submitted',
-		earliestEdit: 'Earliest last edit (submitted first)'
+		points: 'Puntos totales',
+		exactScores: 'Más marcadores exactos',
+		correctWinners: 'Más ganadores correctos',
+		goalDiffDeviation: 'Menor error en diferencia de goles',
+		fewestTips: 'Menos tips enviados',
+		earliestEdit: 'Última edición más temprana (enviado primero)'
 	};
 	const roundLabel: Record<string, string> = {
-		R32: 'Round of 32',
-		R16: 'Round of 16',
-		QF: 'Quarter-final',
-		SF: 'Semi-final',
+		R32: 'Ronda de 32',
+		R16: 'Octavos de Final',
+		QF: 'Cuartos de Final',
+		SF: 'Semifinal',
 		FINAL: 'Final',
-		CHAMPION: 'Champion'
+		CHAMPION: 'Campeón'
 	};
 
 	let revealed = $state(false);
@@ -96,7 +96,7 @@
 				isOwner = me?.role === 'owner';
 				isPrivate = me?.private ?? false;
 			})
-			.catch(() => (error = 'Could not load this league.'))
+			.catch(() => (error = 'No se pudo cargar esta liga.'))
 			.finally(() => (loaded = true));
 	});
 
@@ -134,7 +134,7 @@
 			availableBots = availableBots.filter((x) => x.userId !== b.userId);
 			await refreshRows();
 		} catch {
-			mgmtError = `Could not add ${b.name}.`;
+			mgmtError = `No se pudo agregar a ${b.name}.`;
 		} finally {
 			botBusy = null;
 		}
@@ -157,7 +157,7 @@
 			league = { ...league, name };
 			exitEdit();
 		} catch {
-			mgmtError = 'Could not rename the league.';
+			mgmtError = 'No se pudo renombrar la liga.';
 		} finally {
 			mgmtBusy = false;
 		}
@@ -170,7 +170,7 @@
 			await api.setCodePrivacy(league.id, next);
 			isPrivate = next;
 		} catch {
-			mgmtError = 'Could not update visibility.';
+			mgmtError = 'No se pudo actualizar la visibilidad.';
 		} finally {
 			mgmtBusy = false;
 		}
@@ -185,14 +185,14 @@
 			confirmRegen = false;
 			revealed = true;
 		} catch {
-			mgmtError = 'Could not regenerate the code.';
+			mgmtError = 'No se pudo regenerar el código.';
 		} finally {
 			mgmtBusy = false;
 		}
 	}
 	async function removeMember(userId: string, name: string) {
 		if (!league) return;
-		if (!confirm(`Remove ${name} from this league?`)) return;
+		if (!confirm(`¿Eliminar a ${name} de esta liga?`)) return;
 		mgmtBusy = true;
 		mgmtError = '';
 		try {
@@ -201,7 +201,7 @@
 			// A removed bot becomes available to add again.
 			await loadBots();
 		} catch {
-			mgmtError = 'Could not remove the member.';
+			mgmtError = 'No se pudo eliminar al miembro.';
 		} finally {
 			mgmtBusy = false;
 		}
@@ -235,16 +235,16 @@
 	}
 </script>
 
-<a href="/leagues" class="muted back">← Leagues</a>
+<a href="/leagues" class="muted back">← Ligas</a>
 
 {#if error}
 	<p class="error">{error}</p>
 {:else if !loaded}
-	<p class="muted">Loading…</p>
+	<p class="muted">Cargando…</p>
 {:else if league}
 	<div class="lhead">
 		<div class="ltitle">
-			<p class="kicker">League</p>
+			<p class="kicker">Liga</p>
 			{#if editing}
 				<input
 					class="input nameedit"
@@ -287,19 +287,19 @@
 
 	{#if editing}
 		<section class="card vis">
-			<div class="muted small">Invite code visibility</div>
+			<div class="muted small">Visibilidad del código</div>
 			<div class="tabs vistabs">
 				<button class:active={!isPrivate} onclick={() => setPrivacy(false)} disabled={mgmtBusy}
-					>Members</button
+					>Miembros</button
 				>
 				<button class:active={isPrivate} onclick={() => setPrivacy(true)} disabled={mgmtBusy}
-					>Private</button
+					>Privada</button
 				>
 			</div>
 			<p class="muted small hint">
 				{isPrivate
-					? 'Only you can see and share the invite code.'
-					: 'Everyone in the league can see and share the invite code.'}
+					? 'Solo tú puedes ver y compartir el código.'
+					: 'Todos en la liga pueden ver y compartir el código.'}
 			</p>
 		</section>
 	{/if}
@@ -309,8 +309,8 @@
 			<div class="irow">
 				<div class="ic">
 					<div class="muted small">
-						Invite code
-						{#if isPrivate}<span class="lockpill"><Lock size={11} /> Private</span>{/if}
+						Código de invitación
+						{#if isPrivate}<span class="lockpill"><Lock size={11} /> Privado</span>{/if}
 					</div>
 					<div class="code" class:masked={!revealed}>
 						{revealed ? invite : '•'.repeat(invite.length || 6)}
@@ -319,37 +319,37 @@
 				<div class="spacer"></div>
 				<button
 					class="btn secondary eye"
-					aria-label={revealed ? 'Hide code' : 'Reveal code'}
+					aria-label={revealed ? 'Ocultar código' : 'Mostrar código'}
 					onclick={() => (revealed = !revealed)}
 				>
 					{#if revealed}<EyeOff size={18} />{:else}<Eye size={18} />{/if}
 				</button>
 				<button class="btn secondary copy" onclick={copyInvite}>
-					<Copy size={16} /> Copy
+					<Copy size={16} /> Copiar
 				</button>
 			</div>
 			<button class="btn share" onclick={shareInvite}>
 				<Share2 size={16} />
-				{linkCopied ? 'Link copied!' : 'Share invite link'}
+				{linkCopied ? '¡Enlace copiado!' : 'Compartir enlace'}
 			</button>
 			{#if editing}
 				{#if confirmRegen}
 					<p class="muted small hint regwarn">
-						This invalidates the current code and any links already shared.
+						Esto invalida el código actual y los enlaces ya compartidos.
 					</p>
 					<div class="regrow">
 						<button class="btn danger" onclick={regenerate} disabled={mgmtBusy}>
-							Regenerate
+							Regenerar
 						</button>
 						<button
 							class="btn secondary"
 							onclick={() => (confirmRegen = false)}
-							disabled={mgmtBusy}>Cancel</button
+							disabled={mgmtBusy}>Cancelar</button
 						>
 					</div>
 				{:else}
 					<button class="btn ghost regenbtn" onclick={() => (confirmRegen = true)}>
-						<RefreshCw size={16} /> Regenerate code
+						<RefreshCw size={16} /> Regenerar código
 					</button>
 				{/if}
 			{/if}
@@ -358,31 +358,31 @@
 
 	<section class="card">
 		<div class="tabs">
-			<button class:active={tab === 'total'} onclick={() => (tab = 'total')}>Overall</button>
+			<button class:active={tab === 'total'} onclick={() => (tab = 'total')}>General</button>
 			<button class:active={tab === 'tipsPoints'} onclick={() => (tab = 'tipsPoints')}>Tips</button>
-			<button class:active={tab === 'forecastPoints'} onclick={() => (tab = 'forecastPoints')}>Forecast</button>
+			<button class:active={tab === 'forecastPoints'} onclick={() => (tab = 'forecastPoints')}>Pronóstico</button>
 		</div>
 
 		<table class="lb">
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>Player</th>
+					<th>Jugador</th>
 					{#if fcView}
-						<th class="num ext" title="Correct group positions">Grp</th>
-						<th class="num ext" title="Correct advancers (group stage)">Adv</th>
-						<th class="num ext" title="Predicted teams that reached the Round of 32">R32</th>
-						<th class="num ext" title="…Round of 16">R16</th>
-						<th class="num ext" title="…Quarter-finals">QF</th>
-						<th class="num ext" title="…Semi-finals">SF</th>
-						<th class="num ext" title="…the Final">F</th>
-						<th class="num ext" title="Champion predicted correctly">Win</th>
+						<th class="num ext" title="Posiciones de grupo correctas">Grp</th>
+						<th class="num ext" title="Clasificados correctos (grupos)">Adv</th>
+						<th class="num ext" title="Equipos predichos en Ronda de 32">R32</th>
+						<th class="num ext" title="…Octavos de Final">R16</th>
+						<th class="num ext" title="…Cuartos de Final">QF</th>
+						<th class="num ext" title="…Semifinales">SF</th>
+						<th class="num ext" title="…la Final">F</th>
+						<th class="num ext" title="Campeón predicho correctamente">Win</th>
 					{:else}
-						<th class="num ext" title="Matches predicted">Pred</th>
-						<th class="num ext" title="Forecast points">FC</th>
-						<th class="num ext" title="Exact scores (tiebreak 1)">Exact</th>
-						<th class="num ext" title="Correct winners (tiebreak 2)">Win</th>
-						<th class="num ext" title="Goal-diff error (tiebreak 3, lower is better)">GD&Delta;</th>
+						<th class="num ext" title="Partidos pronosticados">Pred</th>
+						<th class="num ext" title="Puntos de pronóstico">PC</th>
+						<th class="num ext" title="Marcadores exactos (desempate 1)">Exact</th>
+						<th class="num ext" title="Ganadores correctos (desempate 2)">Win</th>
+						<th class="num ext" title="Error diferencia goles (desempate 3, menor es mejor)">DG&Delta;</th>
 					{/if}
 					<th class="num pts">Pts</th>
 				</tr>
@@ -455,23 +455,23 @@
 							<td colspan="12">
 								{#if fcView}
 									<div class="stats">
-										<span><i>Correct group positions</i><b>{f.groups ?? 0}</b></span>
-										<span><i>Correct advancers</i><b>{f.advance ?? 0}</b></span>
-										<span><i>Reached Round of 32</i><b>{f.R32 ?? 0}</b></span>
-										<span><i>Reached Round of 16</i><b>{f.R16 ?? 0}</b></span>
-										<span><i>Reached Quarter-finals</i><b>{f.QF ?? 0}</b></span>
-										<span><i>Reached Semi-finals</i><b>{f.SF ?? 0}</b></span>
-										<span><i>Reached the Final</i><b>{f.FINAL ?? 0}</b></span>
-										<span><i>Champion correct</i><b>{f.champion ? 'Yes' : 'No'}</b></span>
+										<span><i>Posiciones de grupo correctas</i><b>{f.groups ?? 0}</b></span>
+										<span><i>Clasificados correctos</i><b>{f.advance ?? 0}</b></span>
+										<span><i>Llegó a Ronda de 32</i><b>{f.R32 ?? 0}</b></span>
+										<span><i>Llegó a Octavos</i><b>{f.R16 ?? 0}</b></span>
+										<span><i>Llegó a Cuartos</i><b>{f.QF ?? 0}</b></span>
+										<span><i>Llegó a Semis</i><b>{f.SF ?? 0}</b></span>
+										<span><i>Llegó a la Final</i><b>{f.FINAL ?? 0}</b></span>
+										<span><i>Campeón correcto</i><b>{f.champion ? 'Sí' : 'No'}</b></span>
 									</div>
 								{:else}
 									<div class="stats">
-										<span><i>Matches predicted</i><b>{r.predicted}</b></span>
-										<span><i>Tip points</i><b>{r.tipsPoints}</b></span>
-										<span><i>Forecast points</i><b>{r.forecastPoints}</b></span>
-										<span><i>Exact scores</i><b>{r.exactScores}</b></span>
-										<span><i>Correct winners</i><b>{r.correctWinners}</b></span>
-										<span><i>Goal-diff error</i><b>{r.gdDeviation}</b></span>
+										<span><i>Partidos pronosticados</i><b>{r.predicted}</b></span>
+										<span><i>Puntos de Tips</i><b>{r.tipsPoints}</b></span>
+										<span><i>Puntos de Pronóstico</i><b>{r.forecastPoints}</b></span>
+										<span><i>Marcadores exactos</i><b>{r.exactScores}</b></span>
+										<span><i>Ganadores correctos</i><b>{r.correctWinners}</b></span>
+										<span><i>Error dif. goles</i><b>{r.gdDeviation}</b></span>
 									</div>
 								{/if}
 							</td>
@@ -481,7 +481,7 @@
 
 				{#if editing && availableBots.length}
 					<tr class="botsep">
-						<td colspan="12">Add a bot player</td>
+						<td colspan="12">Agregar bot</td>
 					</tr>
 					{#each availableBots as b (b.userId)}
 						<tr class="addbot">
@@ -500,11 +500,11 @@
 									</span>
 									<button
 										class="addbtn"
-										title="Add {b.name} to this league"
+										title="Agregar {b.name} a esta liga"
 										disabled={botBusy === b.userId || mgmtBusy}
 										onclick={() => addBot(b)}
 									>
-										<UserPlus size={15} /> Add
+										<UserPlus size={15} /> Agregar
 									</button>
 								</div>
 							</td>
@@ -514,45 +514,42 @@
 			</tbody>
 		</table>
 		<p class="muted small note">
-			Points update automatically as results come in.
+			Los puntos se actualizan automáticamente con los resultados.
 		</p>
 	</section>
 
 	{#if cfg}
 		<details class="card legend">
-			<summary>How points work</summary>
+			<summary>¿Cómo se calculan los puntos?</summary>
 
-			<h4>Per match (your Tip) — max {cfg.match.tendency +
+			<h4>Por partido (tu Tip) — máx {cfg.match.tendency +
 					cfg.match.exact +
 					cfg.match.totalGoals +
 					cfg.match.goalDiff} pt</h4>
 			<ul class="leg">
 				<li>
-					<span>Correct result — group: 1 / X / 2; knockout: the team
-						that advances</span><b>{cfg.match.tendency} pt</b>
+					<span>Resultado correcto — grupo: 1/X/2; eliminatoria: equipo que avanza</span><b>{cfg.match.tendency} pt</b>
 				</li>
-				<li><span>Exact score</span><b>+{cfg.match.exact} pt</b></li>
-				<li><span>Correct total number of goals</span><b>+{cfg.match.totalGoals} pt</b></li>
-				<li><span>Correct goal difference</span><b>+{cfg.match.goalDiff} pt</b></li>
+				<li><span>Marcador exacto</span><b>+{cfg.match.exact} pt</b></li>
+				<li><span>Total de goles correcto</span><b>+{cfg.match.totalGoals} pt</b></li>
+				<li><span>Diferencia de goles correcta</span><b>+{cfg.match.goalDiff} pt</b></li>
 			</ul>
 			<p class="muted small">
-				Knockout games have no draw — the result point is for the team
-				that goes through. If a knockout game is decided in extra time,
-				the score points use the after-extra-time score.
+				Los partidos de eliminatoria no tienen empate — el punto es para el equipo que avanza.
+				Si el partido se define en tiempo extra, se usa el marcador al final del tiempo extra.
 			</p>
 
-			<h4>Tournament Forecast</h4>
+			<h4>Pronóstico del Torneo</h4>
 			<ul class="leg">
-				<li><span>Each team in its correct final group position</span><b>{cfg.forecast.groupPosition} pt</b></li>
-				<li><span>Whole group ordered perfectly (bonus)</span><b>+{cfg.forecast.perfectGroupBonus} pt</b></li>
+				<li><span>Cada equipo en su posición correcta de grupo</span><b>{cfg.forecast.groupPosition} pt</b></li>
+				<li><span>Grupo ordenado perfectamente (bonus)</span><b>+{cfg.forecast.perfectGroupBonus} pt</b></li>
 				<li>
-					<span>Each team you predicted to advance (group top 2, or a
-						best-third pick) that actually advances</span
+					<span>Cada equipo que pronosticaste clasificado que realmente clasifica</span
 					><b>{cfg.forecast.advance} pt</b>
 				</li>
 			</ul>
 			<p class="muted small">
-				Reaching a knockout round (per correctly predicted team):
+				Llegar a una ronda eliminatoria (por equipo pronosticado correctamente):
 			</p>
 			<ul class="leg">
 				{#each Object.entries(roundLabel) as [k, lbl] (k)}
@@ -562,7 +559,7 @@
 				{/each}
 			</ul>
 
-			<h4>Tiebreakers (in order)</h4>
+			<h4>Desempates (en orden)</h4>
 			<ol class="tiebreak">
 				{#each cfg.tiebreakers as t (t)}
 					<li>{tbLabel[t] ?? t}</li>

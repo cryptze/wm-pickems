@@ -49,20 +49,20 @@
 				</div>
 			</a>
 			<a class="item" href="/settings" onclick={() => (open = false)}>
-				<Settings size={17} /> Settings
+				<Settings size={17} /> Configuración
 			</a>
 			{#if serverClock.dev}
 				<a class="item" href="/dev" onclick={() => (open = false)}>
-					<FlaskConical size={17} /> Dev tools
+					<FlaskConical size={17} /> Herramientas dev
 				</a>
 			{/if}
 			{#if auth.isAdmin}
 				<a class="item" href="/_/" onclick={() => (open = false)}>
-					<Shield size={17} /> Admin dashboard
+					<Shield size={17} /> Panel de administración
 				</a>
 			{/if}
 			<button class="item" onclick={() => auth.logout()}>
-				<LogOut size={17} /> Log out
+				<LogOut size={17} /> Cerrar sesión
 			</button>
 		</div>
 	{/if}

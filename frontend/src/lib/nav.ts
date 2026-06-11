@@ -8,11 +8,11 @@ export interface NavItem {
 }
 
 export const navItems: NavItem[] = [
-	{ href: '/', label: 'Home', icon: House },
+	{ href: '/', label: 'Inicio', icon: House },
 	{ href: '/tips', label: 'Tips', icon: Volleyball },
-	{ href: '/forecast', label: 'Forecast', icon: Telescope },
-	{ href: '/tournament', label: 'Bracket', icon: Network },
-	{ href: '/leagues', label: 'Leagues', icon: Trophy }
+	{ href: '/forecast', label: 'Pronóstico', icon: Telescope },
+	{ href: '/tournament', label: 'Cuadro', icon: Network },
+	{ href: '/leagues', label: 'Ligas', icon: Trophy }
 ];
 
 export function isActive(href: string, path: string): boolean {

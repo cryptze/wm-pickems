@@ -28,7 +28,7 @@
 		} catch (err: unknown) {
 			resetError =
 				(err as { message?: string })?.message ??
-				'Could not send reset email.';
+				'No se pudo enviar el correo de recuperación.';
 		} finally {
 			resetBusy = false;
 		}
@@ -46,11 +46,11 @@
 		const file = (e.target as HTMLInputElement).files?.[0];
 		if (!file) return;
 		if (!file.type.startsWith('image/')) {
-			error = 'Please choose an image file.';
+			error = 'Por favor elige un archivo de imagen.';
 			return;
 		}
 		if (file.size > MAX_AVATAR_BYTES) {
-			error = 'Image must be 5 MB or smaller.';
+			error = 'La imagen debe ser de 5 MB o menos.';
 			return;
 		}
 		error = '';
@@ -65,7 +65,7 @@
 		saved = false;
 		const trimmed = name.trim();
 		if (trimmed.length < 1 || trimmed.length > 48) {
-			error = 'Display name must be between 1 and 48 characters.';
+			error = 'El nombre debe tener entre 1 y 48 caracteres.';
 			return;
 		}
 		busy = true;
@@ -78,7 +78,7 @@
 		} catch (err: unknown) {
 			error =
 				(err as { message?: string })?.message ??
-				'Could not save changes.';
+				'No se pudieron guardar los cambios.';
 		} finally {
 			busy = false;
 		}
@@ -86,8 +86,8 @@
 </script>
 
 <div class="settings">
-	<h1>Settings</h1>
-	<p class="muted">Manage how you appear to friends.</p>
+	<h1>Configuración</h1>
+	<p class="muted">Administra cómo apareces ante tus amigos.</p>
 
 	<form class="card" onsubmit={submit}>
 		<div class="avatar-row">
@@ -103,9 +103,9 @@
 					onclick={() => fileInput.click()}
 					disabled={busy}
 				>
-					Change photo
+					Cambiar foto
 				</button>
-				<p class="muted hint">PNG or JPG, up to 5 MB.</p>
+				<p class="muted hint">PNG o JPG, máximo 5 MB.</p>
 			</div>
 			<input
 				bind:this={fileInput}
@@ -117,7 +117,7 @@
 		</div>
 
 		<div class="field">
-			<label for="dn">Display name</label>
+			<label for="dn">Nombre</label>
 			<input
 				id="dn"
 				class="input"
@@ -129,20 +129,20 @@
 		</div>
 
 		{#if error}<p class="error">{error}</p>{/if}
-		{#if saved}<p class="ok">Saved.</p>{/if}
+		{#if saved}<p class="ok">Guardado.</p>{/if}
 
-		<button class="btn" disabled={busy}>{busy ? 'Saving…' : 'Save changes'}</button>
+		<button class="btn" disabled={busy}>{busy ? 'Guardando…' : 'Guardar cambios'}</button>
 	</form>
 
 	<section class="card">
-		<h3>Password</h3>
+		<h3>Contraseña</h3>
 		<p class="muted small">
-			We'll email a reset link to <strong>{auth.user?.email ?? ''}</strong>.
-			Click it to choose a new password.
+			Te enviaremos un enlace de recuperación a <strong>{auth.user?.email ?? ''}</strong>.
+			Haz clic en él para elegir una nueva contraseña.
 		</p>
 		{#if resetError}<p class="error">{resetError}</p>{/if}
 		{#if resetSent}
-			<p class="ok">Reset email sent — check your inbox.</p>
+			<p class="ok">Correo enviado — revisa tu bandeja de entrada.</p>
 		{/if}
 		<button
 			type="button"
@@ -150,11 +150,11 @@
 			onclick={sendReset}
 			disabled={resetBusy || resetSent}
 		>
-			{resetBusy ? 'Sending…' : resetSent ? 'Sent' : 'Send reset link'}
+			{resetBusy ? 'Enviando…' : resetSent ? 'Enviado' : 'Enviar enlace'}
 		</button>
 	</section>
 
-	<p class="muted switch"><a href="/">Back</a></p>
+	<p class="muted switch"><a href="/">Volver</a></p>
 </div>
 
 <style>

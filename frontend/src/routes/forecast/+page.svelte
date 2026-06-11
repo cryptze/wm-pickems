@@ -56,11 +56,11 @@
 
 	const stages = ['R32', 'R16', 'QF', 'SF', '3RD', 'FINAL'];
 	const stageName: Record<string, string> = {
-		R32: 'Round of 32',
-		R16: 'Round of 16',
-		QF: 'Quarter-finals',
-		SF: 'Semi-finals',
-		'3RD': 'Third place',
+		R32: 'Ronda de 32',
+		R16: 'Octavos de Final',
+		QF: 'Cuartos de Final',
+		SF: 'Semifinales',
+		'3RD': 'Tercer puesto',
 		FINAL: 'Final'
 	};
 	let byStage = $derived(
@@ -79,8 +79,7 @@
 	function tname(id: string) {
 		return fs.team(id)?.name ?? '';
 	}
-	const ord = (n: number) =>
-		n === 1 ? '1st' : n === 2 ? '2nd' : n === 3 ? '3rd' : `${n}th`;
+	const ord = (n: number) => `${n}°`;
 
 	const lockDate = $derived(
 		fs.tournamentStart
@@ -106,13 +105,13 @@
 </script>
 
 <div class="stickyhead" use:collapseOnScroll>
-	<p class="kicker">The big call</p>
+	<p class="kicker">El gran pronóstico</p>
 	<div class="sh-expand">
 		<div class="sh-inner">
-			<h1>Forecast</h1>
+			<h1>Pronóstico</h1>
 			<p class="muted desc">
-				Your one-time tournament call. {#if fs.locked}<b>Locked.</b
-					>{:else}Locks at kickoff{lockDate
+				Tu pronóstico único del torneo. {#if fs.locked}<b>Cerrado.</b
+					>{:else}Cierra al inicio{lockDate
 						? ` · ${lockDate}`
 						: ''}.{/if}
 			</p>
@@ -120,9 +119,9 @@
 	</div>
 	{#if fs.loaded}
 		<div class="seg">
-			<button class:on={section === 'groups'} onclick={() => (section = 'groups')}>Groups</button>
-			<button class:on={section === 'thirds'} onclick={() => (section = 'thirds')}>Best thirds</button>
-			<button class:on={section === 'bracket'} onclick={() => (section = 'bracket')}>Bracket</button>
+			<button class:on={section === 'groups'} onclick={() => (section = 'groups')}>Grupos</button>
+			<button class:on={section === 'thirds'} onclick={() => (section = 'thirds')}>Mejores terceros</button>
+			<button class:on={section === 'bracket'} onclick={() => (section = 'bracket')}>Cuadro</button>
 		</div>
 	{/if}
 </div>
@@ -130,14 +129,14 @@
 {#if err}<p class="error">{err}</p>{/if}
 
 {#if !fs.loaded}
-	<p class="muted">Loading…</p>
+	<p class="muted">Cargando…</p>
 {:else}
 	{#if fs.locked}
-		<div class="card lockbar"><Lock size={16} /> The tournament has started — your Forecast is final.</div>
+		<div class="card lockbar"><Lock size={16} /> El torneo ha comenzado — tu Pronóstico está cerrado.</div>
 	{/if}
 
 	{#if section === 'groups'}
-		<p class="muted small">Order each group 1st → 4th. Top 2 advance; 3rd may qualify as a best third.</p>
+		<p class="muted small">Ordena cada grupo del 1° al 4°. Los primeros 2 avanzan; el 3° puede clasificar como mejor tercero.</p>
 		{#each fs.groups as g (g.letter)}
 			<section class="card grp">
 				<h3>Group {g.letter}</h3>
@@ -171,12 +170,12 @@
 						<span class="tag">
 							{#if state === 'ok'}<span class="ind ok"><Check size={15} /></span>
 							{:else if state === 'half'}
-								<span class="apos half">finished {ord(apos)}</span>
+								<span class="apos half">terminó {ord(apos)}</span>
 								<span class="ind half"><CircleCheck size={15} /></span>
 							{:else if state === 'miss'}
-								<span class="apos">finished {ord(apos)}</span>
+								<span class="apos">terminó {ord(apos)}</span>
 								<span class="ind no"><X size={15} /></span>
-							{:else if i < 2}<span class="pill ok">advances</span>
+							{:else if i < 2}<span class="pill ok">clasifica</span>
 							{:else if i === 2}<span class="pill">3rd</span>{/if}
 						</span>
 						{#if !fs.locked}
@@ -226,7 +225,7 @@
 		{#if champion}
 			<div class="card champ">
 				<Trophy size={20} />
-				<span class="lbl">Predicted champion</span>
+				<span class="lbl">Campeón predicho</span>
 				<Flag
 					iso2={fs.team(champion)?.iso2 ?? ''}
 					code={fs.team(champion)?.fifaCode ?? ''}
@@ -279,13 +278,13 @@
 		<div class="savebar">
 			<span class="savestat" class:err={saveState === 'error'}>
 				{#if saveState === 'saving'}
-					Saving…
+					Guardando…
 				{:else if saveState === 'error'}
-					{err || 'Save failed'}
+					{err || 'Error al guardar'}
 				{:else if saveState === 'saved'}
-					<Check size={15} /> Saved · changes auto-save
+					<Check size={15} /> Guardado · los cambios se guardan solos
 				{:else}
-					Changes auto-save
+					Los cambios se guardan solos
 				{/if}
 			</span>
 		</div>

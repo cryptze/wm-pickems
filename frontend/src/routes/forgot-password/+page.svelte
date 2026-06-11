@@ -16,7 +16,7 @@
 		} catch (err: unknown) {
 			error =
 				(err as { message?: string })?.message ??
-				'Could not send reset email.';
+				'No se pudo enviar el correo de recuperación.';
 		} finally {
 			busy = false;
 		}
@@ -24,20 +24,20 @@
 </script>
 
 <div class="auth">
-	<h1>Reset password</h1>
+	<h1>Restablecer contraseña</h1>
 	<p class="muted">
-		Enter the email you signed up with — we'll send you a reset link.
+		Ingresa el correo con el que te registraste y te enviaremos un enlace.
 	</p>
 
 	{#if sent}
 		<div class="card">
-			<p class="ok">If that email is registered, a reset link is on its way.</p>
-			<p class="muted switch"><a href="/login">Back to sign in</a></p>
+			<p class="ok">Si ese correo está registrado, recibirás un enlace en breve.</p>
+			<p class="muted switch"><a href="/login">Volver a iniciar sesión</a></p>
 		</div>
 	{:else}
 		<form class="card" onsubmit={submit}>
 			<div class="field">
-				<label for="em">Email</label>
+				<label for="em">Correo electrónico</label>
 				<input
 					id="em"
 					class="input"
@@ -49,9 +49,9 @@
 			</div>
 			{#if error}<p class="error">{error}</p>{/if}
 			<button class="btn" disabled={busy || !email.trim()}>
-				{busy ? 'Sending…' : 'Send reset link'}
+				{busy ? 'Enviando…' : 'Enviar enlace'}
 			</button>
-			<p class="muted switch"><a href="/login">Back to sign in</a></p>
+			<p class="muted switch"><a href="/login">Volver a iniciar sesión</a></p>
 		</form>
 	{/if}
 </div>

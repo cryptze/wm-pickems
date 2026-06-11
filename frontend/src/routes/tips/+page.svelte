@@ -56,11 +56,11 @@
 	// All tab: by calendar day.
 	const stageOrder = ['R32', 'R16', 'QF', 'SF', '3RD', 'FINAL'];
 	const stageLabel: Record<string, string> = {
-		R32: 'Round of 32',
-		R16: 'Round of 16',
-		QF: 'Quarter-finals',
-		SF: 'Semi-finals',
-		'3RD': 'Third place',
+		R32: 'Ronda de 32',
+		R16: 'Octavos de Final',
+		QF: 'Cuartos de Final',
+		SF: 'Semifinales',
+		'3RD': 'Tercer puesto',
 		FINAL: 'Final'
 	};
 	let days = $derived.by(() => {
@@ -73,7 +73,7 @@
 				.sort()
 				.map(
 					(l) =>
-						[`Group ${l}`, byGroup[l].sort(byKickoff)] as [string, Match[]]
+						[`Grupo ${l}`, byGroup[l].sort(byKickoff)] as [string, Match[]]
 				);
 		}
 		if (tab === 'ko') {
@@ -125,28 +125,28 @@
 </script>
 
 <div class="stickyhead" use:collapseOnScroll>
-	<p class="kicker">Match predictions</p>
+	<p class="kicker">Pronósticos</p>
 	<div class="sh-expand">
 		<div class="sh-inner">
 			<h1>Tips</h1>
-			<p class="muted desc">Predict every match. Editable until kickoff.</p>
+			<p class="muted desc">Predice cada partido. Editable hasta el pitazo.</p>
 		</div>
 	</div>
 	<div class="tabs">
-		<button class:active={tab === 'all'} onclick={() => (tab = 'all')}>All</button>
+		<button class:active={tab === 'all'} onclick={() => (tab = 'all')}>Todos</button>
 		<button class:active={tab === 'group'} onclick={() => (tab = 'group')}
-			>Groups</button
+			>Grupos</button
 		>
 		<button class:active={tab === 'ko'} onclick={() => (tab = 'ko')}
-			>Knockout</button
+			>Eliminatoria</button
 		>
 	</div>
 </div>
 
 {#if !tipsStore.loaded}
-	<p class="muted">Loading fixtures…</p>
+	<p class="muted">Cargando partidos…</p>
 {:else if filtered.length === 0}
-	<p class="muted">Nothing here.</p>
+	<p class="muted">Nada aquí.</p>
 {:else}
 	{#each days as [day, ms], i (day)}
 		<h3 class="day" id={`day-${i}`}>{day}</h3>
