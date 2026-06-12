@@ -22,13 +22,17 @@ import (
 // under the API-Football free tier (100/day).
 const cronExpr = "*/30 * * * *"
 
-// nameAliases maps API-Football names that differ from the openfootball seed
-// names to the seeded team name.
+// nameAliases maps provider team names that differ from the openfootball seed
+// names to the seeded canonical name.
 var nameAliases = map[string]string{
+	// API-Football aliases
 	football.NormalizeName("Korea Republic"): football.NormalizeName("South Korea"),
 	football.NormalizeName("Czechia"):        football.NormalizeName("Czech Republic"),
 	football.NormalizeName("USA"):            football.NormalizeName("United States"),
 	football.NormalizeName("IR Iran"):        football.NormalizeName("Iran"),
+	// worldcup26.ir aliases
+	football.NormalizeName("Bosnia and Herzegovina"):          football.NormalizeName("Bosnia & Herzegovina"),
+	football.NormalizeName("Democratic Republic of the Congo"): football.NormalizeName("DR Congo"),
 }
 
 func canonName(s string) string {
@@ -40,8 +44,9 @@ func canonName(s string) string {
 }
 
 // pickProvider decides the live-results source: API-Football when its key can
-// actually reach WC2026 (a paid plan — free can't), otherwise the free
-// openfootball JSON. RESULTS_SOURCE=apifootball|openfootball forces it.
+// actually reach WC2026 (a paid plan — free can't), otherwise worldcup26.ir
+// (free, no key required). RESULTS_SOURCE=apifootball|worldcup26ir|openfootball
+// forces the source explicitly.
 // Returns a label and a sync function (nil = none / manual-only).
 func pickProvider(app core.App) (string, func(context.Context) error) {
 	key := os.Getenv("API_FOOTBALL_KEY")
@@ -50,12 +55,18 @@ func pickProvider(app core.App) (string, func(context.Context) error) {
 	apiFn := func(ctx context.Context) error {
 		return SyncOnce(ctx, app, football.New(key))
 	}
+	wc26Fn := func(ctx context.Context) error {
+		return wc26Sync(ctx, app)
+	}
 	ofFn := func(ctx context.Context) error {
 		return openfootballSync(ctx, app)
 	}
 
 	if mode == "openfootball" {
 		return "openfootball", ofFn
+	}
+	if mode == "worldcup26ir" {
+		return "worldcup26ir", wc26Fn
 	}
 	if mode == "apifootball" {
 		if key == "" {
@@ -70,9 +81,9 @@ func pickProvider(app core.App) (string, func(context.Context) error) {
 		if fx, err := football.New(key).Fixtures(ctx); err == nil && len(fx) > 0 {
 			return "api-football", apiFn
 		}
-		log.Printf("[sync] API-Football key can't reach WC2026 (free plan?) — using openfootball")
+		log.Printf("[sync] API-Football key can't reach WC2026 (free plan?) — falling back to worldcup26ir")
 	}
-	return "openfootball", ofFn
+	return "worldcup26ir", wc26Fn
 }
 
 // Register wires the live-results cron + manual override endpoints.
